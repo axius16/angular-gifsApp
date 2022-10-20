@@ -8,8 +8,10 @@ export class GifsService {
 
   private apiKey: string = '3kNkh5cBCZIZA0TwYc7WgwKQr4QGG0B0';
   private _historial: string[] = [];
-  private url: string = 'http://api.giphy.com/v1/gifs/search?api_key=3kNkh5cBCZIZA0TwYc7WgwKQr4QGG0B0&q=travolta&limit=10';
 
+  //TODO cambiar an por su tipo correspondiente
+  public resultados: any[] = [];
+  
   get historial(): string[] {
     return [...this._historial];
   }
@@ -25,8 +27,11 @@ export class GifsService {
       this._historial = this._historial.splice(0,10);
     }    
 
-    this.http.get( this.url ).subscribe( (response: any) => {  
+    const url = `http://api.giphy.com/v1/gifs/search?api_key=3kNkh5cBCZIZA0TwYc7WgwKQr4QGG0B0&q=${ query }&limit=10`;
+
+    this.http.get( url ).subscribe( (response: any) => {  
       console.log( response.data );
+      this.resultados = response.data;
     })
   }
 
